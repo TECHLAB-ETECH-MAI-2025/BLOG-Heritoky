@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Articles{% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+        <div class="card">
+            <h1>{{ article.title }}</h1>
+            <p>{{ article.content }}</p>
+
+            <div class="row">
+                <div class="col-auto">
+                    <a href="{{ path('app_article_edit', {'id': article.id}) }}" class="btn btn-warning">Modifier</a>
+                </div>
+                <div class="col-auto">
+                    {{ include('article/_delete_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <h4>Commenter</h4>
+            {% include 'comment/_form.html.twig' %}
+            <a href="{{ path('app_article_index') }}">retour</a>
+        </div>
+    </div>
+
+{% endblock %}

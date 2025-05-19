@@ -1,16 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Category{% endblock %}
+{% block title %}Categorie{% endblock %}
 
 {% block body %}
-    <h1>Category</h1>
+    <h1>Categorie</h1>
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ category.id }}</td>
-            </tr>
             <tr>
                 <th>Title</th>
                 <td>{{ category.title }}</td>
@@ -26,9 +22,10 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_category_index') }}">back to list</a>
-
-    <a href="{{ path('app_category_edit', {'id': category.id}) }}">edit</a>
-
-    {{ include('category/_delete_form.html.twig') }}
+    
+    <div class="d-flex gap-3">
+        <a href="{{ path('app_category_edit', {'id': category.id}) }}" class="btn btn-warning">Modifier</a>
+        {{ include('category/_delete_form.html.twig') }}
+    </div>
+    <a href="{{ path('app_category_index') }}">retour</a>
 {% endblock %}

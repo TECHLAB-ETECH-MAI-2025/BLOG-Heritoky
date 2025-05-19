@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau Article{% endblock %}
+
+{% block body %}
+    <h1>Ajouter un article</h1>
+
+    {{ include('article/_form.html.twig') }}
+    <p> crée un categorie </p>
+
+    <a href="{{ path('app_article_index') }}">retour</a>
+{% endblock %}

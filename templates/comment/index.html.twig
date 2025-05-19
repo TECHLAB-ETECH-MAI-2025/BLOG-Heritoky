@@ -1,0 +1,14 @@
+
+{% block title %}Comment index{% endblock %}
+
+{% block body %}
+
+        {% for comment in comments %}
+            <div>
+                <h4>{{ comment.author }}</h4>
+                <p>{{ comment.content }}</p>
+                <p>{{ comment.createAt ? comment.createAt|date('Y-m-d H:i:s') : '' }}</p>
+            </div>
+        {% endfor %}
+
+{% endblock %}

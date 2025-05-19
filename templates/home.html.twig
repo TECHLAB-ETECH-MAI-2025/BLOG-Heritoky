@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  <h1 class="mb-5 text-center">Les dernières articles</h1>
+
+  <div class="container">
+    <div class="row">
+      {% for dernierArticle in dernierarticle %}
+        <div class="col-md-6 mb-4">
+          <div class="card w-75 h-100 ">
+            <div class="card-body" >
+              <h5 class="card-title text-center">{{ dernierArticle.title }}</h5>
+              <p class="card-text text-truncate" style="max-width: 100%; white-space: nowrap;">{{ dernierArticle.content }}</p>
+              <p class="text-body-secondary">
+                Catégories : 
+                {% for category in dernierArticle.categories %}
+                  {{ category.title }}{% if not loop.last %}, {% endif %}
+                {% endfor %}
+              </p>
+              <a href="{{ path('app_article_show', {'id': dernierArticle.id}) }}">Voir plus</a> 
+
+            </div>
+          </div>
+        </div>
+      {% else %}
+        <div class="col-12">
+          <h3 class="text-center">Il n'y a pas d'article</h3>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

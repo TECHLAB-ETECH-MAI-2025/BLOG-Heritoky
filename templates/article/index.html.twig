@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Article{% endblock %}
+
+{% block body %}
+
+<h2 class='mb-3'> Liste des articles</h2>
+<div class="list-group">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Titre</th>
+                <th scope="col">Catégories</th>
+                <th scope="col">Actions</th>
+                <th scope="col">Commentaires</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for article in pagination %}
+                <tr>
+                    <td>{{ article.title }}</td>
+                    <td>
+                        {% for category in article.categories %}
+                        {{ category.title }}{% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a href="{{ path('app_article_show', {'id': article.id}) }}" class="btn btn-primary">Voir plus</a>
+                    </td>
+                    <td>
+                        <h3 class="mt-2">Commentaires</h3>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                <td colspan="4" class="text-center">Aucun article trouvé</td>
+                </tr>
+        {% endfor %}
+        </tbody>
+  </table>
+<a href="{{ path('app_article_new') }}" class="btn btn-primary">Ajouter l'Article</a>
+</div>
+<div class="pagination">
+    {{knp_pagination_render(pagination)}}
+</div>
+
+{% endblock %}
