@@ -41,8 +41,11 @@
   </table>
 <a href="{{ path('app_article_new') }}" class="btn btn-primary">Ajouter l'Article</a>
 </div>
-<div class="pagination">
-    {{knp_pagination_render(pagination)}}
+<div class="pagination-container">
+    <ul class="pagination justify-content-center">
+        {{ knp_pagination_render(pagination) }}
+    </ul>
 </div>
+
 
 {% endblock %}
