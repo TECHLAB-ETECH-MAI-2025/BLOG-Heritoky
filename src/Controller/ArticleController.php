@@ -68,7 +68,7 @@ final class ArticleController extends AbstractController
             $entityManager->persist( $comment);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_article_index', ['id'=> $article->getId()]);
+            return $this->redirectToRoute('app_article_show', ['id'=> $article->getId()]);
         }
         $queryBuilder = $entityManager->getRepository(Comment::class)
         ->createQueryBuilder('c')
@@ -81,6 +81,7 @@ final class ArticleController extends AbstractController
             $request->query->getInt('page', 1),
             5 
         );
+
 
 
         return $this->render('article/show.html.twig', [
@@ -108,7 +109,7 @@ final class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_article_delete', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'app_article_delete', methods: ['POST'])]
     public function delete(Request $request, Article $article, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->getPayload()->getString('_token'))) {
@@ -118,4 +119,5 @@ final class ArticleController extends AbstractController
 
         return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
     }
+
 }

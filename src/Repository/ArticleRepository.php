@@ -44,4 +44,34 @@ class ArticleRepository extends ServiceEntityRepository
     public function findLast():array{
         return $this->findBy([],['createAt'=>'DESC'],4);
     }
+	public function search(string $query, int $limit = 10): array
+	{
+		$qb = $this->createQueryBuilder('a')
+			->leftJoin('a.categories', 'c')
+			->addSelect('c')
+			->where('a.title LIKE :query OR c.title LIKE :query')
+			->setParameter('query', '%' . $query . '%')
+			->orderBy('a.createAt', 'DESC')
+			->setMaxResults($limit);
+
+		return $qb->getQuery()->getResult();
+	}
+    
+   
+
+		/**
+		 * Recherche des articles par titre
+		 */
+    public function searchByTitle(string $query, int $limit = 10): array
+    {
+        return $this->createQueryBuilder('a')
+            ->leftJoin('a.categories', 'c')
+            ->where('a.title LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
+            ->orderBy('a.createAt', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+	
 }

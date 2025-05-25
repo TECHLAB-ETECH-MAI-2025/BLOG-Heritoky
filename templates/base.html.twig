@@ -13,10 +13,13 @@
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
+            {{ encore_entry_link_tags('article-list') }}    
+            {{ encore_entry_script_tags('article-list') }}
+    </body>
         {% endblock %}
     </head>
     <body class ="card-body">
-        <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+        <nav class="navbar navbar-expand-lg bg-primary mb-5" data-bs-theme="dark">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">Mon Blog</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,13 +46,18 @@
                     </a>
                     </li>
                 </ul>
+                <div>
+                    <form class="d-flex" role="search">
+                        <input id="search-article" class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+                        <div id="search-results" class="dropdown-menu w-100 position-absolute"></div>
+                    </form>
+                </div>
+                
                 </div>
             </div>
             </nav>
             <div class="container">
                 {% block body %}{% endblock %}
             </div>
-            
- 
-    </body>
+    
 </html>

@@ -137,7 +137,6 @@ class Article
     public function removeComment(Comment $comment): static
     {
         if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
             if ($comment->getArticle() === $this) {
                 $comment->setArticle(null);
             }
@@ -167,7 +166,6 @@ class Article
     public function removeLike(ArticleLike $like): static
     {
         if ($this->likes->removeElement($like)) {
-            // set the owning side to null (unless already changed)
             if ($like->getArticle() === $this) {
                 $like->setArticle(null);
             }

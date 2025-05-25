@@ -1,4 +1,8 @@
 {% extends 'base.html.twig' %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('article') }}
+{% endblock %}
+
 
 {% block body %}
   <h1 class="mb-5 text-center">Les dernières articles</h1>
@@ -17,9 +21,15 @@
                   {{ category.title }}{% if not loop.last %}, {% endif %}
                 {% endfor %}
               </p>
-              <a href="{{ path('app_article_show', {'id': dernierArticle.id}) }}">Voir plus</a> 
+              <a href="{{ path('app_article_show', {'id': dernierArticle.id}) }}">Voir plus</a>
 
+              <button class="btn"><i class="bi bi-chat-left-dots">0</i></button>
+              <button class="btn like-button" id="likes-count" data-article-id={{dernierArticle.id}}>
+                <i class="bi bi-heart" ></i>
+                <span class="likes-count"> {{ dernierArticle.likeCount }}</span>
+              </button>
             </div>
+
           </div>
         </div>
       {% else %}
@@ -28,5 +38,37 @@
         </div>
       {% endfor %}
     </div>
+
+  <h1 class="text-center mb-4 mt-4"> Les articles </h1>
+  
+    <div>
+      {% for article in articles %}
+        <div>
+          <div class="card w-75 h-100 ">
+            <div class="card-body" >
+              <h5 class="card-title text-center">{{ article.title }}</h5>
+              <p class="card-text text-truncate" style="max-width: 100%; white-space: nowrap;">{{ article.content }}</p>
+              <p class="text-body-secondary">
+                Catégories : 
+                {% for category in article.categories %}
+                  {{ category.title }}{% if not loop.last %}, {% endif %}
+                {% endfor %}
+              </p>
+              <a href="{{ path('app_article_show', {'id': article.id}) }}">Voir plus</a> 
+              <button class="btn"><i class="bi bi-chat-left-dots">0</i></button>
+              <button class="btn like-button " data-article-id={{article.id}}>
+                <i class="bi bi-heart"></i> 
+                <span class ="likes-count">{{ article.likeCount }}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      {% else %}
+        <div class="col-12">
+          <h3 class="text-center">Il n'y a pas d'article</h3>
+        </div>
+      {% endfor %}
   </div>
+
+
 {% endblock %}

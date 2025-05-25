@@ -1,6 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Articles{% endblock %}
+{% block stylesheets %}
+		{{ parent() }}
+		{{ encore_entry_link_tags('article') }}
+	{% endblock %}
+
+	{% block javascripts %}
+		{{ parent() }}
+		{{ encore_entry_script_tags('article') }}
+	{% endblock %}
 
 {% block body %}
     <div class="container my-5">
@@ -21,6 +30,15 @@
             <h4>Commenter</h4>
             {% include 'comment/_form.html.twig' %}
             <a href="{{ path('app_article_index') }}">retour</a>
+        </div>
+        <div>
+        {% for comment in pagination %}
+            <div>
+                <h4>{{ comment.author }}</h4>
+                <p>{{ comment.content }}</p>
+                <p>{{ comment.createAt ? comment.createAt|date('Y-m-d H:i:s') : '' }}</p>
+            </div>
+        {% endfor %}
         </div>
     </div>
 
