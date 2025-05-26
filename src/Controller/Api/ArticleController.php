@@ -108,7 +108,7 @@ class ArticleController extends AbstractController
 			{
 				$comment = new Comment();
 				$comment->setArticle($article);
-				$comment->setCreatedAt(new \DateTimeImmutable());
+				$comment->setCreateAt(new \DateTimeImmutable());
 
 				$form = $this->createForm(CommentType::class, $comment);
 				$form->handleRequest($request);

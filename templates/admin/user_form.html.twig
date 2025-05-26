@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+	{% block title %}{{ user.id ? 'Modifier l\'utilisateur' : 'Nouvel utilisateur' }}{% endblock %}
+
+	{% block body %}
+
+
+
+
+
+					Menu d'administration
+
+
+
+
+							 Tableau de bord
+
+
+							 Gestion des utilisateurs
+
+
+							 Retour au site
+
+
+
+
+
+
+			{% for label, messages in app.flashes %}
+				{% for message in messages %}
+
+						{{ message }}
+
+
+				{% endfor %}
+			{% endfor %}
+
+
+
+					{{ user.id ? 'Modifier l\'utilisateur' : 'Nouvel utilisateur' }}
+
+
+					{{ form_start(form) }}
+
+
+								{{ form_label(form.firstName) }}
+								{{ form_widget(form.firstName) }}
+
+									{{ form_errors(form.firstName) }}
+
+
+
+								{{ form_label(form.lastName) }}
+								{{ form_widget(form.lastName) }}
+
+									{{ form_errors(form.lastName) }}
+
+
+
+
+							{{ form_label(form.email) }}
+							{{ form_widget(form.email) }}
+
+								{{ form_errors(form.email) }}
+
+
+
+							{{ form_label(form.plainPassword) }}
+							{{ form_widget(form.plainPassword) }}
+
+								{{ form_errors(form.plainPassword) }}
+
+							{% if not user.id %}
+
+									Le mot de passe doit contenir au moins 8 caractères.
+
+							{% else %}
+
+									Laissez vide pour conserver le mot de passe actuel.
+
+							{% endif %}
+
+
+							{{ form_label(form.roles) }}
+
+								{{ form_widget(form.roles) }}
+
+
+								{{ form_errors(form.roles) }}
+
+
+
+							{{ form_widget(form.isVerified) }}
+							{{ form_label(form.isVerified) }}
+
+								{{ form_errors(form.isVerified) }}
+
+
+
+
+
+								 Retour à la liste
+
+
+								 {{ user.id ? 'Mettre à jour' : 'Créer' }}
+
+
+					{{ form_end(form) }}
+
+
+
+
+
+	{% endblock %}

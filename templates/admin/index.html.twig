@@ -1,0 +1,56 @@
+	{% extends 'base.html.twig' %}
+
+	{% block title %}Administration{% endblock %}
+
+	{% block body %}
+
+
+
+
+
+    Menu d'administration
+
+                Tableau de bord
+
+                Gestion des utilisateurs
+
+                Retour au site
+
+
+    {% for label, messages in app.flashes %}
+    {% for message in messages %}
+
+        {{ message }}
+
+
+    {% endfor %}
+    {% endfor %}
+
+
+
+    Tableau de bord d'administration
+
+
+         Utilisateurs
+         {{ userCount }}
+
+Voir les détails
+
+
+ Utilisateurs vérifiés
+        {{ verifiedCount }}
+
+ Voir les détails
+
+
+
+
+ Administrateurs
+{{ adminCount }}
+Voir les détails
+
+ Actions rapides
+
+ Créer un nouvel utilisateur
+
+	{% endblock %}

@@ -1,0 +1,133 @@
+{% extends 'base.html.twig' %}
+
+		{% block title %}Gestion des utilisateurs{% endblock %}
+
+		{% block body %}
+
+
+
+
+
+						Menu d'administration
+
+
+
+
+								 Tableau de bord
+
+
+								 Gestion des utilisateurs
+
+
+								 Retour au site
+
+
+
+
+
+
+				{% for label, messages in app.flashes %}
+					{% for message in messages %}
+
+							{{ message }}
+
+
+					{% endfor %}
+				{% endfor %}
+
+
+
+						Gestion des utilisateurs
+
+							 Nouvel utilisateur
+
+
+
+
+
+									{% for user in users %}
+
+									{% else %}
+
+									{% endfor %}
+
+
+
+										ID
+										Nom
+										Email
+										Rôles
+										Vérifié
+										Date d'inscription
+										Actions
+
+
+
+											{{ users.id }}
+											{{ users.fullName }}
+											{{ users.email }}
+
+												{% for role in user.roles %}
+													{% if role == 'ROLE_ADMIN' %}
+														Admin
+													{% elseif role == 'ROLE_SUPER_ADMIN' %}
+														Super Admin
+													{% elseif role == 'ROLE_USER' %}
+														Utilisateur
+													{% else %}
+														{{ role }}
+													{% endif %}
+												{% endfor %}
+
+
+												{% if user.isVerified %}
+													Oui
+												{% else %}
+													Non
+												{% endif %}
+
+											{{ user.createdAt|date('d/m/Y') }}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+																Confirmation de suppression
+
+
+
+																Êtes-vous sûr de vouloir supprimer l'utilisateur {{
+	user.fullName }} ({{ user.email }}) ?
+
+
+																Annuler
+
+
+																	Supprimer
+
+
+
+
+
+
+
+											Aucun utilisateur trouvé
+
+
+
+
+
+
+
+
+		{% endblock %}
