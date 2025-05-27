@@ -6,7 +6,6 @@ console.log("JS chargé");
 			
 			// Système de "j'aime" en AJAX
 			
-			
 			$('.like-button').on('click', function() {
 				const $likeButton = $(this);
 				const articleId = $likeButton.data('article-id');
@@ -27,6 +26,9 @@ console.log("JS chargé");
 					}
 				});
 			});
+
+
+			$
 
 			
 		});

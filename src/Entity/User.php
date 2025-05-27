@@ -49,7 +49,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->createAt = new \DateTimeImmutable();
         $this->isVerified = false;
-    }
+      
+    
 
     public function getId(): ?int
     {

@@ -8,12 +8,12 @@
         <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
+             {{ encore_entry_link_tags('article-list') }}  
         {% endblock %}
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
-            {{ encore_entry_link_tags('article-list') }}    
             {{ encore_entry_script_tags('article-list') }}
     </body>
         {% endblock %}
@@ -26,36 +26,47 @@
                 <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarColor01">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link {% if app.request.attributes.get('_route') == 'home' %}active fw-bold{% endif %}" href="{{ path('home') }}">
-                        Home
-                        {% if app.request.attributes.get('_route') == 'home' %}
-                            <span class="visually-hidden">(current)</span>
-                        {% endif %}
-                    </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if app.request.attributes.get('_route') starts with 'app_article' %}active fw-bold{% endif %}" href="{{ path('app_article_index') }}">
-                        Article
-                    </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if app.request.attributes.get('_route') starts with 'app_category' %}active fw-bold{% endif %}" href="{{ path('app_category_index') }}">
-                        Categorie
-                    </a>
-                    </li>
-                </ul>
-                <div>
-                    <form class="d-flex" role="search">
-                        <input id="search-article" class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                        <div id="search-results" class="dropdown-menu w-100 position-absolute"></div>
-                    </form>
-                    
-                </div>
-                <div class="ms-3">
-                    <i class="bi bi-person-circle text-white fs-1"></i>
-                </div>
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link {% if app.request.attributes.get('_route') == 'home' %}active fw-bold{% endif %}" href="{{ path('home') }}">
+                            Home
+                            {% if app.request.attributes.get('_route') == 'home' %}
+                                <span class="visually-hidden">(current)</span>
+                            {% endif %}
+                        </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if app.request.attributes.get('_route') starts with 'app_article' %}active fw-bold{% endif %}" href="{{ path('app_article_index') }}">
+                            Article
+                        </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if app.request.attributes.get('_route') starts with 'app_category' %}active fw-bold{% endif %}" href="{{ path('app_category_index') }}">
+                            Categorie
+                        </a>
+                        </li>
+                    </ul>
+                    <div>
+                        <form class="d-flex" role="search">
+                            <input id="search-article" class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+                            <div id="search-results" class="dropdown-menu w-100 position-absolute"></div>
+                        </form>
+                        
+                    </div>
+                    <div class="ms-3" >
+                        <button id="login" class="btn"> 
+                            <i class="bi bi-person-circle text-white fs-1"></i>
+                            <p class="statue_connexion">Non connecter </p>
+                        </button>
+                        <div class="zindex-tooltip: ">
+                            <button>A</button>
+                            <button>B</button>
+                            <button>C</button>
+                            <button>D</button>
+                            
+                        </div>
+                        
+                    </div>
                 
                 </div>
             </div>

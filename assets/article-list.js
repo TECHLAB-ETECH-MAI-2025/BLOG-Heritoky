@@ -70,4 +70,8 @@ $(document).ready(function () {
 				$searchResults.removeClass('show');
 			}
         });
+		$('#login').on('click', function(){
+			alert('test');
+		})
+	
 });

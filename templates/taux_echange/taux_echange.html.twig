@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('article') }}
+{% endblock %}
+
+
+{% block body %}
+  {% for donner in Donnerecuperer %}
+    <div>
+
+        {{donner.userId}}
+        {{donner.id}}
+        {{donner.title}}
+        {{donner.body}}
+
+    </div>
+    {% endfor %}
+
+{% endblock %}
