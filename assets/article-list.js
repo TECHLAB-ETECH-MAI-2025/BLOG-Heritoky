@@ -1,7 +1,6 @@
 // assets/article-list.js
 
 import $ from 'jquery';
-import 'bootstrap';
 import 'datatables.net-bs5';
 import 'datatables.net-responsive-bs5';
 import 'datatables.net-bs5/css/dataTables.bootstrap5.css';
@@ -70,4 +69,5 @@ $(document).ready(function () {
 				$searchResults.removeClass('show');
 			}
         });
+
 });

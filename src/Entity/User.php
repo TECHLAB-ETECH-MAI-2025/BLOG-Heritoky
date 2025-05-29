@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -45,6 +46,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $isVerified = null;
 
+    #[ORM\Column(type: Types::BLOB, nullable: true)]
+    private $PDP = null;
+
     public function __construct()
     {
         $this->createAt = new \DateTimeImmutable();
@@ -72,7 +76,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * A visual identifier that represents this user.
      *
      * @see UserInterface
-     */
+     */ 
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
@@ -178,5 +182,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this->email;
+    }
+
+    public function getPDP()
+    {
+        return $this->PDP;
+    }
+
+    public function setPDP($PDP): static
+    {
+        $this->PDP = $PDP;
+
+        return $this;
     }
 }

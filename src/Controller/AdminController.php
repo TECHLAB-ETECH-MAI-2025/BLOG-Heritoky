@@ -2,10 +2,15 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Form\AdminUserFormType;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Repository\UserRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use App\Entity\User;
 
 final class AdminController extends AbstractController
 {
@@ -39,6 +44,7 @@ final class AdminController extends AbstractController
 			$user = new User();
 			$form = $this->createForm(AdminUserFormType::class, $user);
 			$form->handleRequest($request);
+			
 
 			if ($form->isSubmitted() && $form->isValid()) {
 				// Encoder le mot de passe
@@ -49,7 +55,7 @@ final class AdminController extends AbstractController
 					)
 				);
 
-				$user->setCreatedAt(new \DateTimeImmutable());
+				$user->setCreateAt(new \DateTimeImmutable());
 				$user->setIsVerified(true);
 
 				$entityManager->persist($user);

@@ -47,6 +47,12 @@
                 {{ form_label(registrationForm.agreeTerms, null, {'label_attr': {'class': 'form-check-label'}}) }}
                 {{ form_errors(registrationForm.agreeTerms) }}
             </div>
+            <div class="mb-3">
+                {{ form_label(registrationForm.PDP, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(registrationForm.PDP, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(registrationForm.PDP) }}
+            </div>
+
 
             <div class="d-grid">
                 <button type="submit" class="btn btn-primary">S'inscrire</button>

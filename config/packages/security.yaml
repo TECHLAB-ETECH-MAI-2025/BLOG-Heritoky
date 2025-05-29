@@ -15,7 +15,7 @@ security:
     api:
             pattern: ^/api/
             custom_authenticator:
-                - App\Security\AppCustomAuthenticator
+                - App\Security\LoginFormAuthenticator
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
       security: false
@@ -24,8 +24,8 @@ security:
       lazy: true
       provider: app_user_provider
       custom_authenticator:
+        - App\Security\AppCustomAuthenticator
         
-        - App\Security\LoginFormAuthenticator
       logout:
         path: app_logout
         # where to redirect after logout

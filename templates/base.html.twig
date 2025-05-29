@@ -8,17 +8,11 @@
         <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
+              {{ encore_entry_link_tags('article-list') }} 
         {% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-            {{ encore_entry_link_tags('article-list') }}    
-            {{ encore_entry_script_tags('article-list') }}
-    </body>
-        {% endblock %}
     </head>
-    <body class ="card-body">
+    <body >
         <nav class="navbar navbar-expand-lg bg-primary mb-5" data-bs-theme="dark">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">Mon Blog</a>
@@ -26,26 +20,26 @@
                 <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarColor01">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link {% if app.request.attributes.get('_route') == 'home' %}active fw-bold{% endif %}" href="{{ path('home') }}">
-                        Home
-                        {% if app.request.attributes.get('_route') == 'home' %}
-                            <span class="visually-hidden">(current)</span>
-                        {% endif %}
-                    </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if app.request.attributes.get('_route') starts with 'app_article' %}active fw-bold{% endif %}" href="{{ path('app_article_index') }}">
-                        Article
-                    </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if app.request.attributes.get('_route') starts with 'app_category' %}active fw-bold{% endif %}" href="{{ path('app_category_index') }}">
-                        Categorie
-                    </a>
-                    </li>
-                </ul>
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link {% if app.request.attributes.get('_route') == 'home' %}active fw-bold{% endif %}" href="{{ path('home') }}">
+                            Home
+                            {% if app.request.attributes.get('_route') == 'home' %}
+                                <span class="visually-hidden">(current)</span>
+                            {% endif %}
+                        </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if app.request.attributes.get('_route') starts with 'app_article' %}active fw-bold{% endif %}" href="{{ path('app_article_index') }}">
+                            Article
+                        </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if app.request.attributes.get('_route') starts with 'app_category' %}active fw-bold{% endif %}" href="{{ path('app_category_index') }}">
+                            Categorie
+                        </a>
+                        </li>
+                    </ul>
                 <div>
                     <form class="d-flex" role="search">
                         <input id="search-article" class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
@@ -53,15 +47,51 @@
                     </form>
                     
                 </div>
-                <div class="ms-3">
-                    <i class="bi bi-person-circle text-white fs-1"></i>
-                </div>
+                <div class="ms-6">
+                        {% if not  app.user %}
+                            <div>
+                                <a class="btn _btn-primary shadow" href="{{path('app_login')}}">Se connecter</a>
+                                <i class="bi bi-person-circle"></i>
+                            </div>
                 
+                                
+                       {% else %}
+                            <div class="ms-5">
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <a  href="{{path('app_profil_index')}}" class="btn">
+                                        {% if app.user.pdp %}
+                                            <img src="{{ asset(app.user.pdp) }}" alt="{{ app.user.firstName }}" class="rounded-circle" width="40" height="40" />
+                                        {% else %}
+                                            <i class="bi bi-person-circle"></i>
+                                        {% endif %}
+                                    </a>
+                                    <a class="btn" href="{{path('app_logout')}}"> Déconexion</a>
+                                {% else %}
+                                    <a  href="{{path('app_logout')}}" class="btn">
+                                        {% if app.user.pdp %}
+                                            <img src="{{ asset(app.user.pdp) }}" alt="{{ app.user.firstName }}" class="rounded-circle" width="40" height="40" />
+                                        {% else %}
+                                            <i class="bi bi-person-circle"></i>
+                                        {% endif %}
+                                    </a>
+                                {% endif %}
+                                <p>{{app.user.firstName}}</p>
+                            </div> 
+             
+                        
+                        {% endif %}
+
                 </div>
             </div>
             </nav>
             <div class="container">
                 {% block body %}{% endblock %}
             </div>
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+            {{ encore_entry_script_tags('article-list') }}
+        {% endblock %}
+    </body>
     
 </html>
