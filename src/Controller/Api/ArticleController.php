@@ -2,25 +2,26 @@
 
 namespace App\Controller\Api;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use App\Repository\ArticleRepository;
-use App\Repository\ArticleLikeRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use DateTimeImmutable;
 use App\Entity\Article;
 use App\Entity\Comment;
 use App\Entity\ArticleLike;
-use App\Form\CommentType;
+use App\Form\CommentForm;
+use App\Repository\ArticleRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\ArticleLikeRepository;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 class ArticleController extends AbstractController
 {
 	public function dataTable(Request $request, ArticleRepository $articleRepository): JsonResponse
 	{
-		$draw = $request->getInt('draw');
+		$draw = $request->query->getInt('draw');
 		$start = $request->request->getInt('start');
 				$length = $request->request->getInt('length');
 				$search = $request->request->all('search')['value'] ?? null;
@@ -108,9 +109,9 @@ class ArticleController extends AbstractController
 			{
 				$comment = new Comment();
 				$comment->setArticle($article);
-				$comment->setCreateAt(new \DateTimeImmutable());
+				$comment->setCreateAt(\DateTime::createFromImmutable(new DateTimeImmutable()));
 
-				$form = $this->createForm(CommentType::class, $comment);
+				$form = $this->createForm(CommentForm::class, $comment);
 				$form->handleRequest($request);
 
 				if ($form->isSubmitted() && $form->isValid()) {
@@ -145,13 +146,13 @@ class ArticleController extends AbstractController
 				EntityManagerInterface $entityManager,
 				ArticleLikeRepository $likeRepository
 			): JsonResponse {
-				// Utiliser l'adresse IP comme identifiant (dans un cas réel, utiliser l'ID utilisateur)
-				$ipAddress = $request->getClientIp();
+				// Récupérer l'emailLike depuis les données de la requête POST
+				$emailLike = $request->request->get('email');
 
 				// Vérifier si l'utilisateur a déjà aimé cet article
 				$existingLike = $likeRepository->findOneBy([
 					'article' => $article,
-					'ipAddress' => $ipAddress
+					'emailLike' => $emailLike
 				]);
 
 				if ($existingLike) {
@@ -168,7 +169,7 @@ class ArticleController extends AbstractController
 					// Sinon, ajouter un nouveau like
 					$like = new ArticleLike();
 					$like->setArticle($article);
-					$like->setIpAddress($ipAddress);
+					$like->setEmailLike($emailLike);
 					$like->setCreateAt(new \DateTimeImmutable());
 
 					$entityManager->persist($like);

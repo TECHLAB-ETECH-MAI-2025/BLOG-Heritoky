@@ -43,6 +43,7 @@ class Article
     #[ORM\OneToMany(targetEntity: ArticleLike::class, mappedBy: 'article')]
     private Collection $likes;
 
+   
     public function __construct()
     {
         $this->categories = new ArrayCollection();

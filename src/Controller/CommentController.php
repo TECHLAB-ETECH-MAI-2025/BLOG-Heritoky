@@ -26,7 +26,6 @@ final class CommentController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $comment = new Comment();
-        $comment->setArticle($comment);
         $form = $this->createForm(CommentForm::class, $comment);
         $form->handleRequest($request);
 

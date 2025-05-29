@@ -13,8 +13,7 @@ class ArticleLike
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 45)]
-    private ?string $ipAddress = null;
+
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createAt = null;
@@ -22,21 +21,12 @@ class ArticleLike
     #[ORM\ManyToOne(inversedBy: 'likes')]
     private ?Article $article = null;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private ?String $emailLike = null;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getIpAddress(): ?string
-    {
-        return $this->ipAddress;
-    }
-
-    public function setIpAddress(string $ipAddress): static
-    {
-        $this->ipAddress = $ipAddress;
-
-        return $this;
     }
 
     public function getCreateAt(): ?\DateTimeImmutable
@@ -59,6 +49,18 @@ class ArticleLike
     public function setArticle(?Article $article): static
     {
         $this->article = $article;
+
+        return $this;
+    }
+
+    public function getEmailLike(): ?String
+    {
+        return $this->emailLike;
+    }
+
+    public function setEmailLike(?String $emailLike): static
+    {
+        $this->emailLike = $emailLike;
 
         return $this;
     }
