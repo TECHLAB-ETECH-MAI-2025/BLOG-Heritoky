@@ -1,25 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Chat avec {{ receiver.username }}{% endblock %}
+{% block title %}Chat avec {{ receiver.fullName }}{% endblock %}
 
 {% block body %}
-    Chat avec {{ receiver.username }}
+    <h1>Chat avec {{ receiver.fullName }} </h1> 
 
-    
+    <div class="card">
         {% for message in messages %}
-            
-                {{ message.sender.username }} ({{ message.createdAt|date('H:i:s') }}):
-                {{ message.content }}
-            
+        
+            {{ message.sender.fullName }} ({{ message.createdAt|date('H:i:s') }}):
+            {{ message.content }}
+        
         {% endfor %}
+    </div>
     
-
     {{ form_start(form) }}
         {{ form_widget(form) }}
-        Envoyer
+        <button type="submit" class="btn btn-primary">Envoyer</button>
+
     {{ form_end(form) }}
 
-    
+        <script>
         // Vérifier si nous sommes en mode local (file://)
         if (window.location.protocol !== 'file:') {
             // Code de polling existant
@@ -65,5 +66,7 @@
                 }
             });
         }
+        </script>    
+        
     
 {% endblock %}

@@ -19,7 +19,7 @@ class Message
 
     #[ORM\ManyToOne(inversedBy: 'messages')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $reciever = null;
+    private ?User $receiver = null;
 
     #[ORM\Column(type: "text")]
     private ?string $content = null;
@@ -44,14 +44,14 @@ class Message
         return $this;
     }
 
-    public function getReciever(): ?User
+    public function getReceiver(): ?User
     {
-        return $this->reciever;
+        return $this->receiver;
     }
 
-    public function setReciever(?User $reciever): static
+    public function setReceiver(?User $receiver): static
     {
-        $this->reciever = $reciever;
+        $this->receiver = $receiver;
 
         return $this;
     }

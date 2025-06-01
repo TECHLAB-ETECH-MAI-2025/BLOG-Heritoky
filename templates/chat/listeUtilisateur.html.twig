@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+   <h1>Bienvenue</h1>
+    {% for utilisateurListe in liste %}
+      <div>
+            <p>{{utilisateurListe.email}}</p>
+            <a class="btn btn-success" href="{{ path('chat_index', {'receiverId': utilisateurListe.id}) }}">
+                  Message
+            </a>
+      </div>
+      {% endfor %}
+{% endblock %}  

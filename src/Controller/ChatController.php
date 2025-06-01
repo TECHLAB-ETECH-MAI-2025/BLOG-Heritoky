@@ -15,16 +15,27 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[Route('/chat')]
 class ChatController extends AbstractController
 {
+    #[ROUTE ('/liste', name: 'liste_utilisateur_chat')]
+    public function listeUtilisateurChat(EntityManagerInterface $entityManagerInterface): Response
+    {
+        $userChatListe = $entityManagerInterface->getRepository(User::class)->findAll();
+        // Example: return an empty array or fetch users/messages as needed
+        return $this->render('/chat/listeUtilisateur.html.twig',[
+            'liste'=>$userChatListe
+        ]);
+    }
+
     #[Route('/{receiverId}', name: 'chat_index')]
     public function index(
-        int $receiverId,
+        string $receiverId,
         MessageRepository $messageRepository,
         EntityManagerInterface $entityManager,
         Request $request
     ): Response {
-        /** @var User $currentUser */
+        /** @var User $currentUser */ 
+        $receiverId = (int) $receiverId;
         $currentUser = $this->getUser();
-        if (!$currentUser instanceof UserInterface) {
+        if (!$currentUser instanceof User) {
             throw $this->createAccessDeniedException('Vous devez être connecté.');
         }
 
@@ -41,7 +52,7 @@ class ChatController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $message->setSender($currentUser);
-            $message->setReciever($receiver);
+            $message->setReceiver($receiver);
             $message->setCreatedAt(new \DateTimeImmutable());
             $entityManager->persist($message);
             $entityManager->flush();
@@ -55,4 +66,6 @@ class ChatController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    
 }

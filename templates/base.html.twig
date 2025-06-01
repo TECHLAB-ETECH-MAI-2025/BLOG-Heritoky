@@ -37,7 +37,12 @@
                         <li class="nav-item">
                             <a class="nav-link {% if app.request.attributes.get('_route') starts with 'app_category' %}active fw-bold{% endif %}" href="{{ path('app_category_index') }}">
                             Categorie
-                        </a>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if app.request.attributes.get('_route') starts with 'liste_utilisateur_chat' %}active fw-bold{% endif %}" href="{{ path('liste_utilisateur_chat' ) }}">
+                                Chat
+                            </a>
                         </li>
                     </ul>
                 <div>
