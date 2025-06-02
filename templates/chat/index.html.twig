@@ -5,13 +5,28 @@
 {% block body %}
     <h1>Chat avec {{ receiver.fullName }} </h1> 
 
-    <div class="card">
+    <div class="card " id="chat-messages">
         {% for message in messages %}
-        
-            {{ message.sender.fullName }} ({{ message.createdAt|date('H:i:s') }}):
-            {{ message.content }}
+            {% if app.user.id == message.sender.id %}
+                <div class="alert alert-success">
+                    <h6>{{ message.sender.fullName }}</h6> 
+                    <p>{{ message.content }}</p>
+                    <span>{{ message.createdAt|date('H:i:s') }}</span>
+                </div>
+            {% else %}
+                <div class="alert alert-secondary">
+                    <h3>{{ message.sender.fullName }}</h3> 
+                    <p>{{ message.content }}</p>
+                    <span>{{ message.createdAt|date('H:i:s') }}</span>
+                </div>
+
+            {% endif %}
+            
+            
+            
         
         {% endfor %}
+        </p>
     </div>
     
     {{ form_start(form) }}
@@ -51,8 +66,8 @@
                     // Optionnel : Afficher un message à l'utilisateur
                     document.getElementById('chat-messages').innerHTML +=
                         '<div style="color: red;">Erreur de chargement des messages. Veuillez réessayer.</div>';
-                });
-            }, 5000);
+                });œ
+            }, 1000);
         } else {
             console.log("Mode local détecté - polling désactivé pour éviter les erreurs CORS");
             // Ajouter un message pour indiquer que le polling est désactivé en mode local
