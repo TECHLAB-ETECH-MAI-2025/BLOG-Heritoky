@@ -1,36 +1,49 @@
-// assets/article.js
-console.log("JS chargé");
-		import $ from 'jquery';
+$(document).ready(function() {
+    const emailLike = $('#user-data').data('email');
 
-		$(document).ready(function() {
-			
-			// Système de "j'aime" en AJAX
-			
-			
-			$('.like-button').on('click', function() {
-				const $likeButton = $(this);
-				const articleId = $likeButton.data('article-id');
-				const emailLike = $('#user-data').data('email');
+    $('.like-button').each(function() {
+        const $likeButton = $(this);
+        const articleId = $likeButton.data('article-id');
 
+        fetch(`/article/${articleId}/dejalike`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ email: emailLike })
+        })
+        .then(res => res.json())
+		
+        .then(data => {
+			console.log(data);
+            if (data.success && data.liked) {
+                $likeButton.addClass('liked');
+            }
+        })
+        .catch(console.error);
+    });
 
-				$.ajax({
-					url: `/article/${articleId}/like`,
-					method: 'POST',
-					dataType: 'json',
-					data :{email:emailLike},
-					success: function(response) {
-						if (response.success) {
-							if(response.liked === true){
-								$likeButton.addClass('liked');
-							}else{
-								$likeButton.removeClass('liked');
-							}
-							// Mettre à jour le compteur de likes
-							$likeButton.find('.likes-count').text(response.likesCount);
-						}
-					}
-				});
-			});
+    $('.like-button').on('click', function () {
+        const $likeButton = $(this);
+        const articleId = $likeButton.data('article-id');
 
-			
-		});
+        fetch(`/article/${articleId}/like`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: emailLike })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                $likeButton.toggleClass('liked', data.liked);
+                $likeButton.find('.likes-count').text(data.likesCount);
+            } else {
+                console.warn('Erreur côté serveur :', data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Erreur lors de la requête de like :', error);
+        });
+    });
+	
+});

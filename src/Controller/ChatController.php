@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Mercure\HubInterface;
+use Symfony\Component\Mercure\Update;
 
 
 #[Route('/chat')]
@@ -19,7 +21,7 @@ class ChatController extends AbstractController
     public function listeUtilisateurChat(EntityManagerInterface $entityManagerInterface): Response
     {
         $userChatListe = $entityManagerInterface->getRepository(User::class)->findAll();
-        // Example: return an empty array or fetch users/messages as needed
+
         return $this->render('/chat/listeUtilisateur.html.twig',[
             'liste'=>$userChatListe
         ]);
@@ -30,7 +32,8 @@ class ChatController extends AbstractController
         string $receiverId,
         MessageRepository $messageRepository,
         EntityManagerInterface $entityManager,
-        Request $request
+        Request $request,
+        HubInterface $hub
     ): Response {
         /** @var User $currentUser */ 
         $receiverId = (int) $receiverId;
@@ -57,15 +60,27 @@ class ChatController extends AbstractController
             $entityManager->persist($message);
             $entityManager->flush();
 
-            return $this->redirectToRoute('chat_index', ['receiverId' => $receiverId]);
-        }
+              $update = new Update(
+        sprintf("/chat/%d", $receiverId), // Ce sera le topic écouté par le frontend
+        json_encode([
+            'message' => $message->getContent(),
+            'sender' => $currentUser->getId(),
+            'receiver' => $receiverId
+        ])
+    );
+    $hub->publish($update);
 
-        return $this->render('chat/index.html.twig', [
+    return $this->redirectToRoute('chat_index', ['receiverId' => $receiverId]);
+}
+
+        // Render the chat view if the form is not submitted or not valid
+        return $this->render('/chat/index.html.twig', [
             'messages' => $messages,
-            'receiver' => $receiver,
             'form' => $form->createView(),
+            'receiver' => $receiver,
         ]);
     }
 
+    
     
 }

@@ -22,10 +22,10 @@ class CommentRepository extends ServiceEntityRepository
     public function getCommentPaginator(Article $article, int $offset):Paginator{
 
         $query = $this->createQueryBuilder('a')
-            ->addWhere('a.article = :article')
+            ->andWhere('a.article = :article')
             ->setParameter('article', $article)
             ->orderBy('a.createAt','DESC')
-            ->setMaxResultats(self::COMMENTS_PER_PAGE)
+            ->setMaxResults(self::COMMENTS_PER_PAGE)
             ->setFirstResult($offset)
             ->getQuery()
             ;

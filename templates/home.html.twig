@@ -25,7 +25,7 @@
 
               <button class="btn">
                 <i class="bi bi-chat-left-dots"></i>
-                
+                <span class="likes-count"> {{ dernierArticle.commentsCount }}</span>
               </button>
               <button class="btn like-button" id="likes-count" data-article-id={{dernierArticle.id}}>
                 <i class="bi bi-heart" ></i>
@@ -60,7 +60,7 @@
               <a href="{{ path('app_article_show', {'id': article.id}) }}">Voir plus</a> 
               <button class="btn">
                 <i class="bi bi-chat-left-dots"></i>
-                
+                <span class ="likes-count">{{ article.commentsCount }}</span>
               </button>
               <button class="btn like-button " data-article-id={{article.id}}>
                 <i class="bi bi-heart"></i> 

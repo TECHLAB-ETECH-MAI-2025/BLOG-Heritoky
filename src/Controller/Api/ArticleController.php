@@ -146,8 +146,15 @@ class ArticleController extends AbstractController
 				EntityManagerInterface $entityManager,
 				ArticleLikeRepository $likeRepository
 			): JsonResponse {
-				// Récupérer l'emailLike depuis les données de la requête POST
-				$emailLike = $request->request->get('email');
+				$data = json_decode($request->getContent(), true);
+				$emailLike = $data['email'] ?? null;
+
+				if (!$emailLike) {
+					return new JsonResponse([
+						'success' => false,
+						'error' => 'Email manquant'
+					], Response::HTTP_BAD_REQUEST);
+				}
 
 				// Vérifier si l'utilisateur a déjà aimé cet article
 				$existingLike = $likeRepository->findOneBy([
@@ -156,7 +163,7 @@ class ArticleController extends AbstractController
 				]);
 
 				if ($existingLike) {
-					// Si l'utilisateur a déjà aimé, supprimer le like (toggle)
+					// Toggle OFF : supprimer le like existant
 					$entityManager->remove($existingLike);
 					$entityManager->flush();
 
@@ -166,7 +173,7 @@ class ArticleController extends AbstractController
 						'likesCount' => $article->getLikes()->count()
 					]);
 				} else {
-					// Sinon, ajouter un nouveau like
+					// Toggle ON : ajouter un nouveau like
 					$like = new ArticleLike();
 					$like->setArticle($article);
 					$like->setEmailLike($emailLike);
@@ -182,4 +189,27 @@ class ArticleController extends AbstractController
 					]);
 				}
 			}
+
+			#[Route('/article/{id}/dejalike', name: 'api_article_dejalike', methods: ['POST'])]
+			public function dejalikeArticle(
+				Article $article,
+				Request $request,
+				ArticleLikeRepository $likeRepository
+			): JsonResponse {
+				$data = json_decode($request->getContent(), true);
+				$emailLike = $data['email'] ?? null;
+				// Vérifier si l'utilisateur a déjà aimé cet article
+				$existingLike = $likeRepository->findOneBy([
+					'article' => $article,
+					'emailLike' => $emailLike
+				]);
+
+				return new JsonResponse([
+					'success' => true,
+					'liked' => $existingLike ? true : false,
+				]);
+			}
+
+			
+
 		}
