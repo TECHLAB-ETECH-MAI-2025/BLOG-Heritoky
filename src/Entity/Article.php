@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article
@@ -14,33 +15,40 @@ class Article
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['article:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['article:read'])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['article:read'])]
     private ?string $content = null;
 
     #[ORM\Column]
+    #[Groups(['article:read'])]
     private ?\DateTime $createAt = null;
 
     /**
      * @var Collection<int, Category>
      */
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'articles')]
+    #[Groups(['article:read'])]
     private Collection $categories;
 
     /**
      * @var Collection<int, Comment>
      */
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'article')]
+    #[Groups(['article:read'])]
     private Collection $comments;
 
     /**
      * @var Collection<int, ArticleLike>
      */
     #[ORM\OneToMany(targetEntity: ArticleLike::class, mappedBy: 'article')]
+    #[Groups(['article:read'])]
     private Collection $likes;
 
    
@@ -180,5 +188,11 @@ class Article
     {
         return $this->likes->count();
     }
+
+    public function getCommentsCount(): int
+    {
+        return $this->comments->count();
+    }
+
 
 }

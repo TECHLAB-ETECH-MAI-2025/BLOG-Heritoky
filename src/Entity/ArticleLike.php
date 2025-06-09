@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ArticleLikeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ArticleLikeRepository::class)]
 class ArticleLike
@@ -11,17 +12,20 @@ class ArticleLike
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['article:read'])]
     private ?int $id = null;
 
 
 
     #[ORM\Column]
+    #[Groups(['article:read'])]
     private ?\DateTimeImmutable $createAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'likes')]
     private ?Article $article = null;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['article:read'])]
     private ?String $emailLike = null;
 
     public function getId(): ?int
