@@ -4,30 +4,34 @@
 
 {% block body %}
 
-    <h1>Chat avec {{ receiver.fullName }} </h1> 
+    <h3>Chat avec {{ receiver.fullName }} </h3> 
 
-    <div class="card" id="chat-messages">
+    <div class="card overflow-auto" style="max-height: 50vh;" id="chat-messages">
         {% for message in messages %}
             {% if app.user.id == message.sender.id %}
-                <div class="alert alert-success">
-                    <h6>{{ message.sender.fullName }}</h6> 
+                <div class="alert alert-success small">
+                    <h5>{{ message.sender.fullName }}</h5> 
                     <p>{{ message.content }}</p>
-                    <span>{{ message.createdAt|date('H:i:s') }}</span>
+                    <span class="small">{{ message.createdAt|date('H:i:s') }}</span>
                 </div>
             {% else %}
-                <div class="alert alert-secondary">
-                    <h3>{{ message.sender.fullName }}</h3> 
+                <div class="alert alert-secondary small">
+                    <h5>{{ message.sender.fullName }}</h5> 
                     <p>{{ message.content }}</p>
-                    <span>{{ message.createdAt|date('H:i:s') }}</span>
+                    <span class="small">{{ message.createdAt|date('H:i:s') }}</span>
                 </div>
             {% endif %}
         {% endfor %}
     </div>
-    
-    {{ form_start(form) }}
+
+    <div class="d-flex justify-content-end align-items-center gap-2 mt-3">
+        {{ form_start(form, {'attr': {'class': 'd-flex align-items-center gap-2'}}) }}
         {{ form_widget(form) }}
-        <button type="submit" class="btn btn-primary">Envoyer</button>
-    {{ form_end(form) }}
+            <button type="submit" class="btn btn-primary">Envoyer</button>
+        {{ form_end(form) }}
+    </div>
+    
+    
 
     <script>
         const eventSource = new EventSource("{{ mercure('/chat/' ~ app.user.id)|escape('js') }}");
@@ -45,6 +49,7 @@
 
         eventSource.onmessage = function(event) {
             const data = JSON.parse(event.data);
+            console.log(data);
 
             if (data.sender === receiverId || data.sender === currentUserId) {
                 const isCurrentUser = data.sender === currentUserId;

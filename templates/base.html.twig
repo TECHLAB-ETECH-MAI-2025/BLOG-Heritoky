@@ -40,9 +40,11 @@
                             </a>
                         </li>
                         {% if app.user %}
-                        <li class="nav-item">
-                            <a class="nav-link {% if app.request.attributes.get('_route') starts with 'liste_utilisateur_chat' %}active fw-bold{% endif %}" href="{{ path('liste_utilisateur_chat' ) }}">
+                        <li class="nav-item position-relative">
+                            <a id="btn-chat" class="nav-link position-relative {% if app.request.attributes.get('_route') starts with 'liste_utilisateur_chat' %}active fw-bold{% endif %}" href="{{ path('liste_utilisateur_chat' ) }}">
                                 Chat
+                                <span id="nb-message" >
+                                </span>
                             </a>
                         </li>
                         {% endif %}
@@ -100,6 +102,52 @@
             {{ encore_entry_script_tags('app') }}
             {{ encore_entry_script_tags('article-list') }}
         {% endblock %}
+
+    <script>
+        const chatEventSource = new EventSource("{{ mercure('https://example.com/books/1')|escape('js') }}");
+        const chatMessagesNb = document.getElementById("nb-message");
+        const btnChat = document.getElementById("btn-chat");
+        let messageCount = 0;
+        
+
+        chatEventSource.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            messageCount++;
+           
+            if (data.statu) {
+                chatMessagesNb.classList.add(
+                                            "position-absolute",
+                                            "top-0",
+                                            "start-100",
+                                            "translate-middle",
+                                            "badge",
+                                            "rounded-pill",
+                                            "bg-danger"
+                                            );
+                chatMessagesNb.innerText = messageCount;
+            }
+            
+        };
+        btnChat.addEventListener('click',()=>{
+            chatMessagesNb.classList.remove(
+                                            "position-absolute",
+                                            "top-0",
+                                            "start-100",
+                                            "translate-middle",
+                                            "badge",
+                                            "rounded-pill",
+                                            "bg-danger"
+                                            );
+            chatMessagesNb.innerText ='';
+            messageCount = 0;
+        })
+
+    </script>
+
+
+
     </body>
+
+    
     
 </html>

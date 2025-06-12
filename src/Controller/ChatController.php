@@ -60,15 +60,17 @@ class ChatController extends AbstractController
             $entityManager->persist($message);
             $entityManager->flush();
 
-              $update = new Update(
-        sprintf("/chat/%d", $receiverId), // Ce sera le topic écouté par le frontend
-        json_encode([
-            'message' => $message->getContent(),
-            'sender' => $currentUser->getId(),
-            'receiver' => $receiverId
-        ])
-    );
+              $update = new Update([
+                sprintf("/chat/%d", $receiverId),'https://example.com/books/1'], 
+                json_encode([
+                    'message' => $message->getContent(),
+                    'sender' => $currentUser->getId(),
+                    'receiver' => $receiverId,
+                    'statu' => true
+
+        ]));
     $hub->publish($update);
+
 
     return $this->redirectToRoute('chat_index', ['receiverId' => $receiverId]);
 }
