@@ -194,18 +194,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function getPDP()
-    {
-        return $this->PDP;
-    }
-
-    public function setPDP($PDP): static
-    {
-        $this->PDP = $PDP;
-
-        return $this;
-    }
-
+  
     /**
      * @return Collection<int, Message>
      */

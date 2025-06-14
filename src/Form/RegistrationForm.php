@@ -102,27 +102,8 @@ class RegistrationForm extends AbstractType
                     ]),
 
                 ],
-            ])
+            ]);
 
-                ->add('PDP', FileType::class,
-                [
-                    'label'=>'Photo de profil',
-                    'mapped' => false,
-                    'constraints'=> [
-                        new File([
-                            'maxSize' => '2M',
-                            'mimeTypes' => [
-                                'image/jpeg',
-                                'image/png',
-                                'image/webp',
-
-                            ],
-                            'mimeTypesMessage' => 'Image invalide.',
-
-                        ])
-                        ],
-                    ])
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

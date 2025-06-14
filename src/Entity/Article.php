@@ -40,7 +40,7 @@ class Article
     /**
      * @var Collection<int, Comment>
      */
-    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'article')]
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'article', cascade:['remove'], orphanRemoval:true)]
     #[Groups(['article:read'])]
     private Collection $comments;
 
